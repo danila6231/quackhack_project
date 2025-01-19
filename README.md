@@ -16,8 +16,26 @@ To get the virtual environment set up, type in the shell:
 
 ```bash
 python -m venv venv
+```
+
+On **Windows**:
+
+```bash
 source venv/Scripts/activate
 ```
+
+On **Unix**:
+
+```bash
+source venv/bin/activate
+```
+
+Then install the requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
 
 You should see (venv) pop up in your terminal and set up the environment.
 
