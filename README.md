@@ -68,3 +68,8 @@ python ./manage.py migrate
 python ./manage.py runserver
 ```
 
+## Example
+
+![Alt Text for the Image](/prompt_guesser/images/Hagrid1.png)
+
+![Alt Text for the Image](/prompt_guesser/images/Hagrid2.png)
