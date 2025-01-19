@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import Session
 from .serializers import SessionSerializer, CreateSessionSerializer, JoinSessionSerializer
 
+
 class CreateSessionView(APIView):
     def post(self, request):
         serializer = CreateSessionSerializer(data=request.data)
@@ -14,6 +15,12 @@ class CreateSessionView(APIView):
         session = Session.objects.create(player_one_name=player_name)
         response_serializer = SessionSerializer(session)
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+    
+class GetSessionView(APIView):
+    def get(self, request, session_name):
+        session = get_object_or_404(Session, session_name=session_name)
+        response_serializer = SessionSerializer(session)
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
 
 class JoinSessionView(APIView):
     def post(self, request, session_name):
@@ -45,3 +52,19 @@ class ListSessionsView(APIView):
         sessions = Session.objects.all()
         serializer = SessionSerializer(sessions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class EndTurnView(APIView):
+    def patch(self, request, session_name):
+        session = get_object_or_404(Session, session_name=session_name)
+
+        player_one_points = request.data.get('player_one_points', 0)
+        player_two_points = request.data.get('player_two_points', 0)
+        
+        session.player_one_score += player_one_points
+        session.player_two_score += player_two_points
+
+        session.turn += 1
+
+        session.save()
+
+        return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
