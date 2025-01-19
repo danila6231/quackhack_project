@@ -86,4 +86,4 @@ def gen_images(prompt):
     image_urls.append(response.data[0].url)
     return image_urls
 
-print(gen_images("test yo yo random stuff"))
+# print(gen_images("test yo yo random stuff"))
