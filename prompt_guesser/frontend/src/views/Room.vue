@@ -311,11 +311,43 @@ const chooseImage1 = () => {
 }
 
 const chooseImage2 = () => {
-  console.log("Image 2 chosen");
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'image_url': img2.value })
+  };
+
+  //   console.log(router.currentRoute._rawValue)
+  var session_id = roomName.value;
+  //console.log(session_id);
+  //console.log(typeof(session_id));
+  fetch('http://127.0.0.1:8000/api/sessions/' + session_id + '/select-image', requestOptions)
+    .then(response => response)
+    .then((data) => {
+      console.log("CHOSEN");
+      console.log(data);
+      currentState.value = 'promptGuess';
+    });
 }
 
 const chooseImage3 = () => {
-  console.log("Image 3 chosen");
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'image_url': img3.value })
+  };
+
+  //   console.log(router.currentRoute._rawValue)
+  var session_id = roomName.value;
+  //console.log(session_id);
+  //console.log(typeof(session_id));
+  fetch('http://127.0.0.1:8000/api/sessions/' + session_id + '/select-image', requestOptions)
+    .then(response => response)
+    .then((data) => {
+      console.log("CHOSEN");
+      console.log(data);
+      currentState.value = 'promptGuess';
+    });
 }
 
 // Polling
