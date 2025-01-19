@@ -3,4 +3,5 @@ __pycache__
 node_modules
 prompt_guesser/frontend/node_modules
 prompt_guesser/frontend/dist
+db.sqlite3
 *.babelrc*
