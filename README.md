@@ -15,8 +15,8 @@ The following are required to build and run the project:
 To get the virtual environment set up, type in the shell:
 
 ```bash
-$ python -m venv venv
-$ source venv/Scripts/activate
+python -m venv venv
+source venv/Scripts/activate
 ```
 
 You should see (venv) pop up in your terminal and set up the environment.
@@ -24,19 +24,19 @@ You should see (venv) pop up in your terminal and set up the environment.
 After this is complete, set up the front end environment by switching to the `frontend` directory:
 
 ```bash
-$ cd frontend
+cd frontend
 ```
 
 Then install the required Node.js packages:
 
 ```bash
-$ npm i
+npm i
 ```
 
 Finally build the static page
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 
