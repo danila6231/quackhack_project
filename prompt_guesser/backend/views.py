@@ -10,6 +10,7 @@ import os
 from django.http import JsonResponse
 from .utils import get_points
 
+real_api_flg = True
 
 class CreateSessionView(APIView):
     def post(self, request):
@@ -116,19 +117,20 @@ class ProcessPrompt(APIView):
         # Update the session with the new prompt
         session.prompt = prompt
         
-
-        # Define the image URL
-        # r = requests.post(
-        #     "https://api.deepai.org/api/text2img",
-        #     data={
-        #         'text': 'messi and ronaldo playing baseball',
-        #     },
-        #     headers={'api-key': os.environ['OPENAI_KEY']}
-        # )
-        # image_url = r.json()['share_url']
-        
-        image_url = "https://images.deepai.org/art-image/021223307047423898f5426c6d679a00/messi-and-ronaldo-playing-baseball-051fc3.jpg"
-        image_urls = [image_url, image_url, image_url]
+        if real_api_flg:
+            image_urls = []
+            for _ in range(3):
+                r = requests.post(
+                "https://api.deepai.org/api/text2img",
+                    data={
+                        'text': prompt,
+                    },
+                    headers={'api-key': os.environ['OPENAI_KEY']}
+                )
+                image_urls.append(r.json()['share_url'])
+        else:
+            image_url = "https://images.deepai.org/art-image/021223307047423898f5426c6d679a00/messi-and-ronaldo-playing-baseball-051fc3.jpg"
+            image_urls = [image_url, image_url, image_url]
         session.image_url = ";".join(image_urls)
         session.save()
         response_serializer = SessionSerializer(session)
