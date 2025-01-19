@@ -40,11 +40,16 @@
                     const li = document.createElement('li');
                     li.classList.add('session-item');
                     li.innerHTML = `
-                        <strong>Session: </strong> ${session.session_name} <br>
-                        <strong>Player 1:</strong> ${session.player_one_name} - Score: ${session.player_one_score} <br>
-                        <strong>Player 2:</strong> ${session.player_two_name} - Score: ${session.player_two_score} <br>
-                        <strong>Turn:</strong> ${session.turn}
-                    `;
+                      <strong>Session: </strong> ${session.session_name} <br>
+                      <strong>Player 1:</strong> ${session.player_one_name} - Score: ${session.player_one_score} <br>
+                      <strong>Player 2:</strong> ${session.player_two_name} - Score: ${session.player_two_score} <br>
+                      <strong>Turn:</strong> ${session.turn} <br>
+                      
+                      <a href="#" class="toggle-prompt" onclick="togglePrompt(event)">[+] Show Prompt</a>
+                      <div class="session-prompt" style="display: none;">
+                          <strong>Prompt: </strong> ${session.prompt}
+                      </div>
+                  `;
                     sessionsListElement.appendChild(li);
                 });
             } catch (error) {
