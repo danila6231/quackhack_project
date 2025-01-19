@@ -1,9 +1,13 @@
 <!-- App.vue -->
  <template>
   <div>
-    <h1>
-      HELLO WORLD
-    </h1>
+    <main class="d-flex justify-center align-center">
+      <router-view v-slot="{ Component, route }">
+        <transition :name="route.meta.transition" mode="out-in">
+          <component :is="Component" :key="$route.path + rid" ref="mountedComponent"/>
+        </transition>
+      </router-view>
+    </main>
   </div>
  </template>
 
@@ -19,5 +23,13 @@ import './styles/App.scss';
 // Router
 const router = useRouter();
 
+/*const requestOptions = {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ player_name: 'TEST' })
+};
+
+const response = await fetch('http://127.0.0.1:8000/api/sessions', requestOptions);
+console.log(response);*/
 
 </script>
