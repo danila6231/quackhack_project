@@ -83,7 +83,5 @@ def gen_images(prompt):
         headers={'api-key': os.environ['OPENAI_KEY']}
     )
     
-    image_urls.append(response.data[0].url)
+    image_urls.append(r.json()['share_url'])
     return image_urls
-
-# print(gen_images("test yo yo random stuff"))
