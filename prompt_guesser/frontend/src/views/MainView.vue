@@ -66,7 +66,7 @@ const create = () => {
   };
 
   fetch('http://127.0.0.1:8000/api/sessions', requestOptions).then((response) => {
-    console.log(response);
+    console.log(response.json());
   });
 }
 
