@@ -9,6 +9,7 @@ urlpatterns = [
     path('sessions/<str:session_name>/delete', DeleteSessionView.as_view(), name='delete_session'),
 
     path('sessions/<str:session_name>/status/player', PlayerStatusView.as_view(), name='player_status'),
+    path('sessions/<str:session_name>/status/image', ImageStatusView.as_view(), name='image_status'),
     path('sessions/<str:session_name>/status/guess', GuessStatusView.as_view(), name='guess_status'),
 
     path('sessions/<str:session_name>/process-prompt', ProcessPrompt.as_view(), name='process_prompt'),

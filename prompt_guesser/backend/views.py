@@ -8,7 +8,7 @@ from .serializers import SessionSerializer, CreateSessionSerializer, JoinSession
 import requests
 import os
 from django.http import JsonResponse
-from utils import get_points
+from .utils import get_points
 
 
 class CreateSessionView(APIView):
@@ -83,11 +83,13 @@ class PlayerStatusView(APIView):
         )
     
 
-# class ImageStatusView(APIView):
-#     def get(self, request, session_name):
-#         session = get_object_or_404(Session, session_name=session_name)
+class ImageStatusView(APIView):
+    def get(self, request, session_name):
+        session = get_object_or_404(Session, session_name=session_name)
 
-#         if session.
+        image_is_generated = session.image_url is not None
+
+        return Response({"image_is_generated": image_is_generated}, status=status.HTTP_200_OK)
     
 
 class GuessStatusView(APIView):
@@ -151,21 +153,14 @@ class ProcessPrompt(APIView):
         
 class ProcessPromptGuesses(APIView):
     def post(self, request, session_name):
+        # Retrieve the prompt guess
         serializer = ProcessPromptGuessesSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
-        
-        # Extract the `prompt` field from the validated data
         prompt_guess = serializer.validated_data.get('prompt')
-        prompt = serializer.validated_data.get('prompt')
         
-        # Retrieve the session object
+        # Retrieve the real prompt
         session = get_object_or_404(Session, session_name=session_name)
-
-        # Update the session with the new prompt
         prompt = session.prompt
-
-        prompt_guess = session.prompt_guess
 
         delta_pts, styled_prompt, styled_prompt_guess = get_points(prompt, prompt_guess)
         
@@ -177,17 +172,18 @@ class ProcessPromptGuesses(APIView):
             session.player_two_score += delta_pts
         else:
             session.player_one_score += delta_pts
+
+        session.prompt_guess = prompt_guess
         session.save()
 
         response_serializer = SessionSerializer(session)
         return Response(
-            JsonResponse(
-                {
-                    'styled_prompt': styled_prompt,
-                    'styled_prompt_guess': styled_prompt_guess,
-                    'session_data': response_serializer.data
-                }
-            ), status=status.HTTP_200_OK
+            {
+                'styled_prompt': styled_prompt,
+                'styled_prompt_guess': styled_prompt_guess,
+                'session_data': response_serializer.data
+            }
+            , status=status.HTTP_200_OK
         )
         
 class EndTurnView(APIView):
@@ -195,10 +191,13 @@ class EndTurnView(APIView):
         session = get_object_or_404(Session, session_name=session_name)
         if session.prompt is None:
             return Response({"message": "prompt is empty. Turn is not over."}, status=status.HTTP_403_FORBIDDEN)
+        if session.image_url is None:
+            return Response({"message": "image_url is empty. Turn is not over."}, status=status.HTTP_403_FORBIDDEN)
         if session.prompt_guess is None:
             return Response({"message": "prompt_guess is empty. Turn is not over."}, status=status.HTTP_403_FORBIDDEN)
         session.turn += 1
         session.prompt = None
         session.prompt_guess = None
+        session.image_url = None
         session.save()
         return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
