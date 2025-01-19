@@ -7,3 +7,4 @@ sqlparse==0.5.3
 tzdata==2024.2
 nltk==3.9.1
 psycopg2-binary==2.9.10
+openai==1.59.8
