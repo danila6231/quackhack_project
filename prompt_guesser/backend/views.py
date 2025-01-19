@@ -8,7 +8,7 @@ from .serializers import SessionSerializer, CreateSessionSerializer, JoinSession
 import requests
 import os
 from django.http import JsonResponse
-from utils import get_points
+from .utils import get_points
 
 
 class CreateSessionView(APIView):
