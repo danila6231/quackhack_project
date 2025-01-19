@@ -77,7 +77,7 @@
         </v-container>
 
         <v-container v-if="dialogVisibility">
-          <v-divider class="mx-4"></v-divider>
+          <!-- <v-divider class="mx-4"></v-divider> -->
           <v-row>
             <!-- Room Join Input -->
               <v-text-field

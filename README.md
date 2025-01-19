@@ -89,6 +89,8 @@ Player 2 uses the image to try and guess what the prompt was
 
 Points are assigned bases on how many words in the guess match with thte original prompt.
 
+![Alt Text for the Image](/prompt_guesser/images/man_boxing_bear.png)
+
 ![Alt Text for the Image](/prompt_guesser/images/Hagrid1.png)
 
 ![Alt Text for the Image](/prompt_guesser/images/Hagrid2.png)
