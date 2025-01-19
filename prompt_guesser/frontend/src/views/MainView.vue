@@ -13,7 +13,37 @@
         ></v-progress-linear>
       </template-->
 
-      <v-card-title class="d-align-center game-title">Prompt Guesser</v-card-title>
+      <!-- <v-card-title class="d-align-center game-title">Promptly Perplexed</v-card-title> -->
+
+      <v-card-title 
+        class="game-title">
+        Promptly Puzzled
+      </v-card-title>
+
+      <style>
+      .game-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        background-color: #f4f4f4;
+        padding: 1.5rem;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+      }
+
+      .game-title:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      </style>
+
 
       <v-divider class="mx-4"></v-divider>
 
