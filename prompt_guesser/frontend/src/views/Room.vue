@@ -32,7 +32,7 @@
 
         <v-col align="center">
           <div id="round" class="round">
-            <h2>Round {{ round }}/3</h2>
+            <h2>Round {{ round }}/4</h2>
           </div>
         </v-col>
 
@@ -350,6 +350,40 @@ var pollState = () => {
         playerOneScore.value = data.player_one_score;
         playerTwoScore.value = data.player_two_score;
         currentState.value = 'revealAnswer';
+
+        // Run timer
+        setTimeout(()=> {
+          // Perform a clear
+          const requestOptions = {
+            method: 'PATCH'
+          };
+
+          //   console.log(router.currentRoute._rawValu// Perform a cleare)
+          var session_id = roomName.value;
+          //console.log(session_id);
+          //console.log(typeof(session_id));
+          fetch('http://127.0.0.1:8000/api/sessions/' + session_id + '/end-turn', requestOptions)
+            .then(response => response)
+            .then((data) => {
+              if (data.status == 200){
+                // Update round counter and state
+                round.value += 1;
+                if (round.value > 4){
+                  // End state
+                  
+                }
+                else {
+                  // Steady state
+                  if (role.value == 'chooser'){
+                    role.value = 'guesser';
+                  }
+                  else {
+                    role.value = 'chooser';
+                  }
+                }
+              }
+            });
+        }, 5000);
       }
 
       // Check for styled prompt
