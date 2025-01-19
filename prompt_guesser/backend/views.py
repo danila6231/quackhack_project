@@ -159,6 +159,8 @@ class ProcessPromptGuesses(APIView):
             session.player_one_score += delta_pts
 
         session.prompt_guess = prompt_guess
+        session.styled_prompt = styled_prompt
+        session.styled_prompt_guess = styled_prompt_guess
         session.save()
 
         response_serializer = SessionSerializer(session)
@@ -185,6 +187,8 @@ class EndTurnView(APIView):
         session.prompt_guess = None
         session.image_url = None
         session.selected_image_url = None
+        session.styled_prompt = None
+        session.styled_prompt_guess = None
         session.save()
         return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
 
