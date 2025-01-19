@@ -20,7 +20,7 @@ import App from './App.vue';
 
 // Views
 import Main from './views/MainView.vue';
-import Test from './views/TestView.vue';
+import Room from './views/Room.vue';
 
 // Router
 const router = createRouter({
@@ -32,7 +32,7 @@ history: createMemoryHistory(), // Memory-based routing
     },
     {
       path: '/room/:id',
-      component: Test
+      component: Room
     }
   ]
 });
