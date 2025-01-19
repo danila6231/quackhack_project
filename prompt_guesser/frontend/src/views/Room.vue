@@ -137,6 +137,7 @@ const playerTwoScore = ref(0); // The current player 2 score
 const round = ref(1); // The current round
 const role = ref(""); // The current role of the player
 const promptValue = ref(""); // Prompt value
+const currentState = ref(""); // The current state
 
 // Images
 const img1 = ref("");
