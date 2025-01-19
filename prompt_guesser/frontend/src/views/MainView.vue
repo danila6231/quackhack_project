@@ -58,5 +58,16 @@ import { useRoute, useRouter } from 'vue-router';
 
 import IntroSubview from './subviews/IntroSubview.vue';
 
+const create = () => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ player_name: 'TEST' })
+  };
+
+  fetch('http://127.0.0.1:8000/api/sessions', requestOptions).then((response) => {
+    console.log(response);
+  });
+}
 
 </script>
