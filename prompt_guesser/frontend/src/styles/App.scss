@@ -15,3 +15,11 @@ main {
   flex-direction: row;
   justify-content: center;
 }
+
+/* Fade transition */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.6s ease;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}

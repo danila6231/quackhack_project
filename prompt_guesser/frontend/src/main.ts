@@ -28,11 +28,18 @@ history: createMemoryHistory(), // Memory-based routing
   routes: [
     {
       path: '/',
-      component: Main
+      component: Main,
+      props: true,
+      meta: {
+        transition: 'fade'
+      }
     },
     {
       path: '/room/:id',
-      component: Room
+      component: Room,
+      meta: {
+        transition: 'fade'
+      }
     }
   ]
 });

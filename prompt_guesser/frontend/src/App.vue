@@ -1,5 +1,5 @@
 <!-- App.vue -->
- <template>
+<template>
   <div>
     <main class="d-flex justify-center align-center">
       <router-view v-slot="{ Component, route }">
@@ -9,7 +9,7 @@
       </router-view>
     </main>
   </div>
- </template>
+</template>
 
  <!-- Setup -->
 <script setup lang="ts">
@@ -22,14 +22,5 @@ import './styles/App.scss';
 
 // Router
 const router = useRouter();
-
-/*const requestOptions = {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ player_name: 'TEST' })
-};
-
-const response = await fetch('http://127.0.0.1:8000/api/sessions', requestOptions);
-console.log(response);*/
 
 </script>
