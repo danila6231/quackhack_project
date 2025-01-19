@@ -68,7 +68,13 @@ python ./manage.py migrate
 python ./manage.py runserver
 ```
 
-## Example
+## How the game works
+
+Player 1 enters a prompt which is used to generate an image that is shown to player 2
+
+Player 2 uses the image to try and guess what the prompt was
+
+Points are assigned bases on how many words in the guess match with thte original prompt.
 
 ![Alt Text for the Image](/prompt_guesser/images/Hagrid1.png)
 
