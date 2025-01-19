@@ -68,6 +68,19 @@ python ./manage.py migrate
 python ./manage.py runserver
 ```
 
+## Setting up OpenAI key or any other ai key
+Run the following first in the same window you plan to run the app in:
+```bash
+export OPENAI_KEY=<your-key-here>
+```
+
+Run the following to check if the variable has been set 
+```bash
+echo $OPENAI_KEY
+```
+The terminal should output <your-key-here>
+
+
 ## How the game works
 
 Player 1 enters a prompt which is used to generate an image that is shown to player 2
