@@ -1,4 +1,4 @@
-# Prompt Puzzled
+# Promptly Puzzled
 
 A game where you guess the prompt given an image.  Compete with your friends to see who is the best prompt guesser!
 
