@@ -4,7 +4,7 @@ from rest_framework import status
 import base64
 from django.shortcuts import get_object_or_404
 from .models import Session
-from .serializers import SessionSerializer, CreateSessionSerializer, JoinSessionSerializer, ProcessPromptSerializer
+from .serializers import SessionSerializer, CreateSessionSerializer, JoinSessionSerializer, ProcessPromptSerializer, ProcessPromptGuessesSerializer
 import requests
 import os
 from django.http import JsonResponse
@@ -94,3 +94,31 @@ class ProcessPrompt(APIView):
 
         except Exception as e:
             return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+        
+class ProcessPromptGuesses(APIView):
+    def post(self, request, session_name):
+        serializer = ProcessPromptGuessesSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+
+        # Extract the `prompt` field from the validated data
+        prompt_guess = serializer.validated_data.get('prompt')
+        
+        # Retrieve the session object
+        session = get_object_or_404(Session, session_name=session_name)
+
+        # Update the session with the new prompt
+        prompt = session.prompt
+
+        points = 0
+        for word in prompt_guess.split():
+            if word in prompt:
+                points += 1
+        
+        session.player_two_score += points
+
+        session.save()
+
+        response_serializer = SessionSerializer(session)
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
+        
