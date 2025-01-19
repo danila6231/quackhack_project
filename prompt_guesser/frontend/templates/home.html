@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Session</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            font-size: 16px;
+            padding: 15px 30px;
+            margin: 15px 0;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn.secondary {
+            background-color: #008CBA;
+        }
+
+        .btn.secondary:hover {
+            background-color: #007B9A;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Game Session</h1>
+        <button class="btn" onclick="window.location.href = '/create-session'">Create Session</button>
+        <button class="btn secondary" onclick="window.location.href = '/join-session'">Join Session</button>
+    </div>
+
+</body>
+</html>
