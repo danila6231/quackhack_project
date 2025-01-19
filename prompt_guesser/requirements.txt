@@ -1,7 +1,8 @@
 asgiref==3.8.1
 channels==4.2.0
-Django==5.1.5
+Django==4.2.18
 djangorestframework==3.15.2
 requests==2.32.3
 sqlparse==0.5.3
 tzdata==2024.2
+nltk==3.9.1

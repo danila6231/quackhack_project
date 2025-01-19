@@ -63,7 +63,8 @@ npm run build
 In order to run the backend erver execute the following:
 
 ```bash
-$ python ./manage.py migrate
-$ python ./manage.py runserver
+python ./manage.py makemigrations
+python ./manage.py migrate
+python ./manage.py runserver
 ```
 
