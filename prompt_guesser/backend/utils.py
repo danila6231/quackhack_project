@@ -34,17 +34,3 @@ def get_points(prompt, prompt_guess):
     styled_prompt_guess = gen_styled_string(prompt_guess, intersection)
     
     return len(intersection), styled_prompt, styled_prompt_guess 
-
-
-print(get_points("dog ate cat and mouse was born", "god created cat and born the best"))
-
-# print(ps.stem('creativ'))
-    
-    
-    
-    
-    
-    
-    
-    
-    

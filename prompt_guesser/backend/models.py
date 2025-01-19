@@ -1,6 +1,7 @@
 from django.db import models
 import random
 import string
+from django.contrib.postgres.fields import ArrayField
 
 def generate_session_name():
     return ''.join(random.choices(string.ascii_uppercase, k=5))
@@ -15,7 +16,8 @@ class Session(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     prompt = models.CharField(max_length=200, null=True, blank=True)
     prompt_guess = models.CharField(max_length=200, null=True, blank=True)
-    image_url = models.CharField(max_length=2000, null=True, blank=True)
+    image_url = models.CharField(max_length=2000, blank=True, null=True)
+    selected_image_url = models.CharField(max_length=2000, blank=True, null=True)
 
     def is_full(self):
         return self.player_one_name is not None and self.player_two_name is not None

@@ -4,7 +4,7 @@ from rest_framework import status
 import base64
 from django.shortcuts import get_object_or_404
 from .models import Session
-from .serializers import SessionSerializer, CreateSessionSerializer, JoinSessionSerializer, ProcessPromptSerializer, ProcessPromptGuessesSerializer
+from .serializers import SessionSerializer, CreateSessionSerializer, JoinSessionSerializer, ProcessPromptSerializer, ProcessPromptGuessesSerializer, SelectImageSerializer
 import requests
 import os
 from django.http import JsonResponse
@@ -99,10 +99,6 @@ class GuessStatusView(APIView):
         guess_is_made = session.prompt_guess is not None
         
         return Response({"guess_is_made": guess_is_made}, status=status.HTTP_200_OK)
-            
-
-
-
     
 
 class ProcessPrompt(APIView):
@@ -131,25 +127,18 @@ class ProcessPrompt(APIView):
         # )
         # image_url = r.json()['share_url']
         
-        
         image_url = "https://images.deepai.org/art-image/021223307047423898f5426c6d679a00/messi-and-ronaldo-playing-baseball-051fc3.jpg"
-        session.image_url = image_url
+        image_urls = [image_url, image_url, image_url]
+        session.image_url = ";".join(image_urls)
         session.save()
-        try:
-        # Fetch the image from the URL
-            response = requests.get(image_url)
-            if response.status_code != 200:
-                return JsonResponse({'error': 'Failed to fetch the image'}, status=500)
-
-            # Encode the image to Base64
-            # encoded_image = base64.b64encode(response.content).decode('utf-8')
-
-            
-            response_serializer = SessionSerializer(session)
-            return Response(response_serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+        response_serializer = SessionSerializer(session)
+        return Response({
+            'session_data': response_serializer.data,
+            'images': [
+                image_url for image_url in session.image_url.split(";")
+            ]
+        },
+        status=status.HTTP_200_OK)
         
 class ProcessPromptGuesses(APIView):
     def post(self, request, session_name):
@@ -163,10 +152,6 @@ class ProcessPromptGuesses(APIView):
         prompt = session.prompt
 
         delta_pts, styled_prompt, styled_prompt_guess = get_points(prompt, prompt_guess)
-        
-        # for word in prompt_guess.split():
-        #     if word in prompt:
-        #         points += 1
         
         if session.turn % 2 == 0:
             session.player_two_score += delta_pts
@@ -199,5 +184,17 @@ class EndTurnView(APIView):
         session.prompt = None
         session.prompt_guess = None
         session.image_url = None
+        session.selected_image_url = None
         session.save()
         return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
+
+class SelectImage(APIView):
+    def post(self, request, session_name):
+        serializer = SelectImageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        image_url = serializer.validated_data.get('image_url')
+
+        session = get_object_or_404(Session, session_name=session_name)
+        session.selected_image_url = image_url
+        session.save()
+        return Response(status=status.HTTP_200_OK)

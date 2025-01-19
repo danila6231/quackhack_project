@@ -16,4 +16,6 @@ urlpatterns = [
     path('sessions/<str:session_name>/process-guess', ProcessPromptGuesses.as_view(), name='process_guess'),
 
     path('sessions/<str:session_name>/end-turn', EndTurnView.as_view(), name='end_turn'),
+    
+    path('sessions/<str:session_name>/select-image', SelectImage.as_view(), name='select_image'),
 ]
