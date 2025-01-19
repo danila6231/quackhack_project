@@ -116,18 +116,29 @@ class ProcessPrompt(APIView):
 
         # Update the session with the new prompt
         session.prompt = prompt
+        from openai import OpenAI
         
+
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt="a white siamese cat",
+            size="1024x1024",
+            quality="standard",
+            n=1,
+        )
         if real_api_flg:
             image_urls = []
-            for _ in range(3):
-                r = requests.post(
-                "https://api.deepai.org/api/text2img",
-                    data={
-                        'text': prompt,
-                    },
-                    headers={'api-key': os.environ['OPENAI_KEY']}
-                )
-                image_urls.append(r.json()['share_url'])
+            
+            r = requests.post(
+            "https://api.deepai.org/api/text2img",
+                data={
+                    'text': prompt,
+                },
+                headers={'api-key': os.environ['OPENAI_KEY']}
+            )
+            image_urls.append(r.json()['share_url'])
+            
+            
         else:
             image_url = "https://images.deepai.org/art-image/021223307047423898f5426c6d679a00/messi-and-ronaldo-playing-baseball-051fc3.jpg"
             image_urls = [image_url, image_url, image_url]
