@@ -21,6 +21,7 @@ import App from './App.vue';
 // Views
 import Main from './views/MainView.vue';
 import Room from './views/Room.vue';
+import Final from './views/FinalView.vue';
 
 // Router
 const router = createRouter({
@@ -37,6 +38,13 @@ history: createMemoryHistory(), // Memory-based routing
     {
       path: '/room/:id',
       component: Room,
+      meta: {
+        transition: 'fade'
+      }
+    },
+    {
+      path: '/finish/:id',
+      component: Final,
       meta: {
         transition: 'fade'
       }

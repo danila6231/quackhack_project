@@ -10,7 +10,7 @@ import os
 from django.http import JsonResponse
 from .utils import get_points
 
-real_api_flg = True
+real_api_flg = False
 
 class CreateSessionView(APIView):
     def post(self, request):

@@ -83,6 +83,22 @@
           </v-container>
         </div>
 
+        <!-- Image Display -->
+        <div v-if="currentState == 'promptGuess'">
+          <v-container align="center">
+            <v-row>
+              <v-col>
+                <img class="styled-image" :src="selectedImage">
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-container align="center">
+            <v-row justify='center'>
+              <h2>Other player is guessing...</h2>
+            </v-row>
+          </v-container>
+        </div>
+
         <!-- Prompt Area -->
         <transition>
           <div v-if="currentState == 'prompting'">
@@ -394,27 +410,46 @@ var pollState = () => {
           var session_id = roomName.value;
           //console.log(session_id);
           //console.log(typeof(session_id));
-          fetch('http://127.0.0.1:8000/api/sessions/' + session_id + '/end-turn', requestOptions)
-            .then(response => response)
-            .then((data) => {
-              if (data.status == 200){
-                // Update round counter and state
-                round.value += 1;
-                if (round.value > 4){
-                  // End state
-                  
+          if (role.value == 'chooser'){
+            fetch('http://127.0.0.1:8000/api/sessions/' + session_id + '/end-turn', requestOptions)
+              .then(response => response)
+              .then((data) => {
+                if (data.status == 200){
+                  console.log("END TURN")
                 }
-                else {
-                  // Steady state
-                  if (role.value == 'chooser'){
-                    role.value = 'guesser';
-                  }
-                  else {
-                    role.value = 'chooser';
-                  }
-                }
+              });
+          }
+
+          // Update round counter and state
+          round.value += 1;
+          if (round.value > 4){
+            // End state
+            router.push({
+              path: '/finish/' + roomName,
+              query: {
+                data: JSON.stringify({
+                  playerOneScore: playerOneScore.value,
+                  playerTwoScore: playerTwoScore.value
+                })
               }
             });
+          }
+          else {
+            // Steady state
+            promptGuess.value == "";
+            selectedImage.value == "";
+            styledPrompt.value == "";
+            styledPromptGuess.value == "";
+            currentState.value = "prompting";
+
+            // Swap roles
+            if (role.value == 'chooser'){
+              role.value = 'guesser';
+            }
+            else {
+              role.value = 'chooser';
+            }
+          }
         }, 5000);
       }
 
