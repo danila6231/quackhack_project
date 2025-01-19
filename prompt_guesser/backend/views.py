@@ -1,9 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+import base64
 from django.shortcuts import get_object_or_404
 from .models import Session
-from .serializers import SessionSerializer, CreateSessionSerializer, JoinSessionSerializer
+from .serializers import SessionSerializer, CreateSessionSerializer, JoinSessionSerializer, ProcessPromptSerializer
+import requests
+import os
+from django.http import JsonResponse
 
 
 class CreateSessionView(APIView):
@@ -52,19 +56,41 @@ class ListSessionsView(APIView):
         sessions = Session.objects.all()
         serializer = SessionSerializer(sessions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
-class EndTurnView(APIView):
-    def patch(self, request, session_name):
+class ProcessPrompt(APIView):
+    def post(self, request, session_name):
+        serializer = ProcessPromptSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+
+        # Extract the `prompt` field from the validated data
+        prompt = serializer.validated_data.get('prompt')
+        
+        # Retrieve the session object
         session = get_object_or_404(Session, session_name=session_name)
 
-        player_one_points = request.data.get('player_one_points', 0)
-        player_two_points = request.data.get('player_two_points', 0)
-        
-        session.player_one_score += player_one_points
-        session.player_two_score += player_two_points
-
-        session.turn += 1
-
+        # Update the session with the new prompt
+        session.prompt = prompt
         session.save()
 
-        return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
+        # Define the image URL
+        image_url = "https://images.deepai.org/art-image/021223307047423898f5426c6d679a00/messi-and-ronaldo-playing-baseball-051fc3.jpg"
+
+        try:
+        # Fetch the image from the URL
+            response = requests.get(image_url)
+            if response.status_code != 200:
+                return JsonResponse({'error': 'Failed to fetch the image'}, status=500)
+
+            # Encode the image to Base64
+            encoded_image = base64.b64encode(response.content).decode('utf-8')
+
+            # Return the Base64 image in a JSON response
+            return JsonResponse({
+                'prompt': prompt,
+                'encoded_image': encoded_image
+            })
+
+        except Exception as e:
+            return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)

@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import *
-
+from .views import CreateSessionView, JoinSessionView, DeleteSessionView, ListSessionsView, ProcessPrompt
 
 urlpatterns = [
     path('sessions', CreateSessionView.as_view(), name='create_session'),
@@ -8,5 +7,6 @@ urlpatterns = [
     path('sessions/<str:session_name>', GetSessionView.as_view(), name='get_session'),
     path('sessions/<str:session_name>/join', JoinSessionView.as_view(), name='join_session'),
     path('sessions/<str:session_name>/delete', DeleteSessionView.as_view(), name='delete_session'),
-    path('sessions/<str:session_name>/end_turn', EndTurnView.as_view(), name='end_turn')
+
+    path('sessions/<str:session_name>/process', ProcessPrompt.as_view(), name='process_prompt'),
 ]
