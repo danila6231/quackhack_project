@@ -116,7 +116,7 @@ class ProcessPrompt(APIView):
 
         # Update the session with the new prompt
         session.prompt = prompt
-        session.save()
+        
 
         # Define the image URL
         # r = requests.post(
@@ -130,7 +130,8 @@ class ProcessPrompt(APIView):
         
         
         image_url = "https://images.deepai.org/art-image/021223307047423898f5426c6d679a00/messi-and-ronaldo-playing-baseball-051fc3.jpg"
-
+        session.image_url = image_url
+        session.save()
         try:
         # Fetch the image from the URL
             response = requests.get(image_url)
@@ -138,13 +139,11 @@ class ProcessPrompt(APIView):
                 return JsonResponse({'error': 'Failed to fetch the image'}, status=500)
 
             # Encode the image to Base64
-            encoded_image = base64.b64encode(response.content).decode('utf-8')
+            # encoded_image = base64.b64encode(response.content).decode('utf-8')
 
-            # Return the Base64 image in a JSON response
-            return JsonResponse({
-                'prompt': prompt,
-                'encoded_image': encoded_image
-            })
+            
+            response_serializer = SessionSerializer(session)
+            return Response(response_serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
             return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
