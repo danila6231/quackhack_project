@@ -6,7 +6,7 @@
   "author": "Michael Dushkoff (madu@uoregon.edu",
   "license": "MIT",
   "scripts": {
-    "build": "vite build --config='vite.config.prod.ts' && cp -R dist templates/",
+    "build": "vite build --config=vite.config.prod.ts && cp -R dist templates/",
     "lint": "eslint 'src/**/*.js' || true",
     "prettify": "prettier --write 'src/**/*.js'"
   },

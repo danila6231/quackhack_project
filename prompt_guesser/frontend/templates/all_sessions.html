@@ -40,16 +40,18 @@
                     const li = document.createElement('li');
                     li.classList.add('session-item');
                     li.innerHTML = `
-                      <strong>Session: </strong> ${session.session_name} <br>
-                      <strong>Player 1:</strong> ${session.player_one_name} - Score: ${session.player_one_score} <br>
-                      <strong>Player 2:</strong> ${session.player_two_name} - Score: ${session.player_two_score} <br>
-                      <strong>Turn:</strong> ${session.turn} <br>
-                      
-                      <a href="#" class="toggle-prompt" onclick="togglePrompt(event)">[+] Show Prompt</a>
-                      <div class="session-prompt" style="display: none;">
-                          <strong>Prompt: </strong> ${session.prompt}
-                      </div>
-                  `;
+                    <strong>Session: </strong> ${session.session_name} <br>
+                    <strong>Player 1:</strong> ${session.player_one_name} - Score: ${session.player_one_score} <br>
+                    <strong>Player 2:</strong> ${session.player_two_name} - Score: ${session.player_two_score} <br>
+                    <strong>Turn:</strong> ${session.turn} <br>
+                    
+                    <a href="#" class="toggle-prompt" onclick="togglePrompt(event, this)">[+] Show Prompt</a>
+                    <div class="session-prompt" style="display: none; margin-top: 5px;">
+                        <strong>Prompt: </strong> ${session.prompt}
+                    </div>
+
+                    <button class="end-session-btn" onclick="endSession('${session.session_name}')">End Session</button>
+                    `;
                     sessionsListElement.appendChild(li);
                 });
             } catch (error) {
@@ -59,6 +61,43 @@
 
         // Call fetchSessions to display sessions
         fetchSessions();
+
+
+        function togglePrompt(event, linkElement) {
+            event.preventDefault(); // Prevent the default link behavior
+            const promptDiv = linkElement.nextElementSibling; // The prompt div right after the link
+            
+            if (promptDiv.style.display === "none") {
+                promptDiv.style.display = "block";
+                linkElement.textContent = "[-] Hide Prompt"; // Update the link text
+            } else {
+                promptDiv.style.display = "none";
+                linkElement.textContent = "[+] Show Prompt"; // Revert the link text
+            }
+        }
+
+
+
+        async function endSession(sessionName) {
+        try {
+            const response = await fetch(`/api/sessions/${sessionName}/delete`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            });
+
+            if (response.ok) {
+
+            } else {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.error || "Something went wrong."}`);
+            }
+        } catch (error) {
+            alert(`Network error: ${error}. Please try again.`);
+        }
+        fetchSessions();
+        }
     </script>
 </body>
 </html>
