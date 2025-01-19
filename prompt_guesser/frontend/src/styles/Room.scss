@@ -26,6 +26,7 @@
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Shadow settings */
   max-width: 100%; /* Optional: ensures responsiveness */
   height: auto;    /* Maintains aspect ratio */
+  max-height: 256px; 
 }
 
 .guess-textbox {

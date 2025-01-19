@@ -50,7 +50,13 @@
           <v-divider class="mx-4"></v-divider>
           <v-row>
             <!-- Room Join Input -->
-            <v-text-field label="room name" v-model="roomTextInput"></v-text-field>
+              <v-text-field
+                label="Room Name"
+                v-model="roomTextInput"
+                style="text-transform: uppercase;"
+                maxlength="5"
+                @input="roomTextInput = roomTextInput.toUpperCase()"
+              ></v-text-field>
 
             <!-- Room Join Button -->
             <v-col>
