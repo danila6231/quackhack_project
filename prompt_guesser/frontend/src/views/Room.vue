@@ -49,7 +49,21 @@
     <v-row align="center" v-if="role == 'chooser'">
       <v-col>
         <!-- Image Button List -->
-        
+        <v-container align="center">
+          <v-row>
+            <v-col>
+              <img class="styled-image" :src="img1">
+            </v-col>
+
+            <v-col>
+              <img class="styled-image" :src="img2">
+            </v-col>
+
+            <v-col>
+              <img class="styled-image" :src="img3">
+            </v-col>
+          </v-row>
+        </v-container>
 
         <!-- Prompt Text Field -->
         <v-container align="center">
@@ -124,16 +138,20 @@ const round = ref(1); // The current round
 const role = ref(""); // The current role of the player
 const promptValue = ref(""); // Prompt value
 
+// Images
+const img1 = ref("");
+const img2 = ref("");
+const img3 = ref("");
+
 // Router
 const router = useRouter();
 
 // Methods
 const submitPrompt = () => {
-  console.log(promptValue.value);
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: { 'prompt': promptValue.value }
+    body: JSON.stringify({ 'prompt': promptValue.value })
   };
 
   //   console.log(router.currentRoute._rawValue)
@@ -141,9 +159,11 @@ const submitPrompt = () => {
   //console.log(session_id);
   //console.log(typeof(session_id));
   fetch('http://127.0.0.1:8000/api/sessions/' + session_id + '/process-prompt', requestOptions)
-    .then(response => response)
+    .then(response => response.json())
     .then((data) => {
-      console.log(data);
+      img1.value = data.images[0];
+      img2.value = data.images[1];
+      img3.value = data.images[2];
     });
 }
 
