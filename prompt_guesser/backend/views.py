@@ -190,3 +190,15 @@ class ProcessPromptGuesses(APIView):
             ), status=status.HTTP_200_OK
         )
         
+class EndTurnView(APIView):
+    def patch(self, request, session_name):
+        session = get_object_or_404(Session, session_name=session_name)
+        if session.prompt is None:
+            return Response({"message": "prompt is empty. Turn is not over."}, status=status.HTTP_403_FORBIDDEN)
+        if session.prompt_guess is None:
+            return Response({"message": "prompt_guess is empty. Turn is not over."}, status=status.HTTP_403_FORBIDDEN)
+        session.turn += 1
+        session.prompt = None
+        session.prompt_guess = None
+        session.save()
+        return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
