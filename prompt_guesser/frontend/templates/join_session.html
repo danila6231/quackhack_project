@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Session</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+            text-align: left;
+            width: 100%;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #007B9A;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Join Session</h1>
+        <div class="form-control">
+            <label for="session_name">Session Name</label>
+            <input type="text" id="session_name" placeholder="Enter session name">
+        </div>
+        <div class="form-control">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+        <button class="btn" onclick="joinSession()">Join Session</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        async function joinSession() {
+            const sessionNameInput = document.getElementById('session_name');
+            const nameInput = document.getElementById('name');
+            const resultDiv = document.getElementById('result');
+
+            const sessionName = sessionNameInput.value.trim();
+            const playerName = nameInput.value.trim();
+
+            if (!sessionName || !playerName) {
+                resultDiv.textContent = "Please enter both the session name and your name!";
+                resultDiv.style.color = "red";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/sessions/${sessionName}/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ player_name: playerName }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `You have successfully joined the session <strong>${data.session_name}</strong>.`;
+                    resultDiv.style.color = "green";
+                } else {
+                    const errorData = await response.json();
+                    resultDiv.textContent = `Error: ${errorData.error || "Something went wrong."}`;
+                    resultDiv.style.color = "red";
+                }
+            } catch (error) {
+                resultDiv.textContent = "Network error. Please try again.";
+                resultDiv.style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>

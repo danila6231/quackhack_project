@@ -2,6 +2,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', game_home, name='game_home'),
-    path('/list', game_list, name='game_list'),  # Serve 'index.html' at the root URL
+    path('', home, name='home'),
+    path('list', session_list, name='session_list'),  # Serve 'index.html' at the root URL
+    path('create-session', create_session, name='create_session'),
+    path('join-session', join_session, name='join_session')
 ]
