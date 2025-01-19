@@ -1,0 +1,59 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Sessions</title>
+    <style>
+        /* Simple CSS for list presentation */
+        .session-list {
+            margin: 20px;
+            padding: 0;
+            list-style-type: none;
+        }
+        .session-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Current Game Sessions</h1>
+    <ul class="session-list" id="sessions"></ul>
+
+    <script>
+        // JavaScript to fetch session data
+        const sessionsListElement = document.getElementById('sessions');
+
+        async function fetchSessions() {
+            try {
+                const response = await fetch('/api/sessions/list');
+                const sessionsData = await response.json();
+
+                // Clear the list before appending new items
+                sessionsListElement.innerHTML = '';
+
+                // Loop through each session and append to the list
+                sessionsData.forEach(session => {
+                    const li = document.createElement('li');
+                    li.classList.add('session-item');
+                    li.innerHTML = `
+                        <strong>Session: </strong> ${session.session_name} <br>
+                        <strong>Player 1:</strong> ${session.player_one_name} - Score: ${session.player_one_score} <br>
+                        <strong>Player 2:</strong> ${session.player_two_name} - Score: ${session.player_two_score} <br>
+                        <strong>Turn:</strong> ${session.turn}
+                    `;
+                    sessionsListElement.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error fetching sessions:", error);
+            }
+        }
+
+        // Call fetchSessions to display sessions
+        fetchSessions();
+    </script>
+</body>
+</html>

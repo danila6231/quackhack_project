@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'backend',
+    'frontend',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'prompt_guesser.wsgi.application'
+
+ASGI_APPLICATION = 'prompt_guesser.asgi.application'
 
 
 # Database
