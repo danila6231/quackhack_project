@@ -57,6 +57,50 @@ class ListSessionsView(APIView):
         serializer = SessionSerializer(sessions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+class PlayerStatusView(APIView):
+    def get(self, request, session_name):
+        session = get_object_or_404(Session, session_name=session_name)
+
+        player_one_name = session.player_one_name
+        player_two_name = session.player_two_name
+        player_one_joined = player_one_name is not None
+        player_two_joined = player_two_name is not None
+
+        response = dict()
+        response["player_one_joined"] = player_one_joined
+        response["player_two_joined"] = player_two_joined
+
+        if player_one_joined:
+            response["player_one_name"] = player_one_name
+
+        if player_two_joined:
+            response["player_two_name"] = player_two_name
+
+
+        return Response(
+            response, status=status.HTTP_200_OK
+        )
+    
+
+# class ImageStatusView(APIView):
+#     def get(self, request, session_name):
+#         session = get_object_or_404(Session, session_name=session_name)
+
+#         if session.
+    
+
+class GuessStatusView(APIView):
+    def get(self, request, session_name):
+        session = get_object_or_404(Session, session_name=session_name)
+
+        guess_is_made = session.prompt_guess is not None
+        
+        return Response({"guess_is_made": guess_is_made}, status=status.HTTP_200_OK)
+            
+
+
+
+    
 
 class ProcessPrompt(APIView):
     def post(self, request, session_name):
@@ -133,4 +177,27 @@ class ProcessPromptGuesses(APIView):
 
         response_serializer = SessionSerializer(session)
         return Response(response_serializer.data, status=status.HTTP_200_OK)
+    
+
+class EndTurnView(APIView):
+    def patch(self, request, session_name):
+        session = get_object_or_404(Session, session_name=session_name)
+
+        if session.prompt is None:
+            return Response({"message": "prompt is empty. Turn is not over."}, status=status.HTTP_403_FORBIDDEN)
+
+        if session.prompt_guess is None:
+            return Response({"message": "prompt_guess is empty. Turn is not over."}, status=status.HTTP_403_FORBIDDEN)
+
+
+        session.turn += 1
+        session.prompt = None
+        session.prompt_guess = None
+
+        session.save()
+
+        return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
+
+
+        
         
