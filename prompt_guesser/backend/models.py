@@ -1,3 +1,15 @@
 from django.db import models
+import random
+import string
 
-# Create your models here.
+def generate_session_name():
+    return ''.join(random.choices(string.ascii_uppercase, k=5))
+
+class Session(models.Model):
+    session_name = models.CharField(max_length=5, unique=True, default=generate_session_name)
+    player_one_name = models.CharField(max_length=50, null=True, blank=True)
+    player_two_name = models.CharField(max_length=50, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_full(self):
+        return self.player_one_name is not None and self.player_two_name is not None
