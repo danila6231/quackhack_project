@@ -20,6 +20,7 @@ import App from './App.vue';
 
 // Views
 import Main from './views/MainView.vue';
+import Test from './views/TestView.vue';
 
 // Router
 const router = createRouter({
@@ -28,6 +29,10 @@ history: createMemoryHistory(), // Memory-based routing
     {
       path: '/',
       component: Main
+    },
+    {
+      path: '/room/:id',
+      component: Test
     }
   ]
 });

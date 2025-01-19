@@ -58,6 +58,9 @@ import { useRoute, useRouter } from 'vue-router';
 
 import IntroSubview from './subviews/IntroSubview.vue';
 
+// Router
+const router = useRouter();
+
 const create = () => {
   const requestOptions = {
     method: 'POST',
@@ -68,7 +71,9 @@ const create = () => {
   fetch('http://127.0.0.1:8000/api/sessions', requestOptions)
     .then(response => response.json())
     .then((data) => {
-      console.log(data);
+      var t = '/room/' + data.session_name;
+      //console.log(t);
+      router.push(t);
     });
 }
 
