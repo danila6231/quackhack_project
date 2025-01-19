@@ -110,13 +110,15 @@ class ProcessPromptGuesses(APIView):
         # Update the session with the new prompt
         prompt = session.prompt
 
+        session.prompt_guess = prompt_guess
+
         points = 0
         for word in prompt_guess.split():
             if word in prompt:
                 points += 1
         
         session.player_two_score += points
-
+        
         session.save()
 
         response_serializer = SessionSerializer(session)

@@ -14,6 +14,7 @@ class Session(models.Model):
     turn = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     prompt = models.CharField(max_length=200, null=True, blank=True)
+    prompt_guess = models.CharField(max_length=200, null=True, blank=True)
 
     def is_full(self):
         return self.player_one_name is not None and self.player_two_name is not None
