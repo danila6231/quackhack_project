@@ -186,23 +186,29 @@
         <v-container align="center">
           <v-row>
             <v-col>
-              <v-textarea
+              <h2>Real Prompt</h2>
+              <div class="bg-box" v-bind:class="((round % 2) == 1) ? 'box-blue' : 'box-red'">
+                <h3><div v-html="styledPrompt"></div></h3>
+              </div>
+              <!--v-textarea
                 :bg-color="(role == 'guesser') ? 'light-blue' : 'red-lighten-1'"
                 label=""
                 variant="solo-filled"
-                v-model="styledPrompt"
                 disabled="true"
-              ></v-textarea>
+              >{{ styledPrompt }}</v-textarea-->
             </v-col>
 
             <v-col>
-              <v-textarea
+              <h2>Guessed Prompt</h2>
+              <div class="bg-box" v-bind:class="((round % 2) == 1) ? 'box-red' : 'box-blue'">
+                <h3><div v-html="styledPromptGuess"></div></h3>
+              </div>
+              <!--v-textarea
                 :bg-color="(role != 'guesser') ? 'light-blue' : 'red-lighten-1'"
                 label=""
                 variant="solo-filled"
-                v-model="styledPromptGuess"
                 disabled="true"
-              ></v-textarea>
+              >{{ styledPromptGuess }}</v-textarea-->
             </v-col>
           </v-row>
         </v-container>

@@ -21,10 +21,6 @@
   padding-right: 20px;
 }
 
-.round {
-
-}
-
 .styled-image {
   border-radius: 15px; /* Adjust for desired roundness */
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Shadow settings */
@@ -34,4 +30,23 @@
 
 .guess-textbox {
   max-width: 800px;
+}
+
+.bg-box {
+  color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 4px 4px rgba(0,0,0,0.2);
+  height: auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 40px;
+  /*background-color: #cfcfcf;*/
+}
+
+.box-blue {
+  background-color: #42A5F5;
+}
+
+.box-red {
+  background-color: #EF5350;
 }
