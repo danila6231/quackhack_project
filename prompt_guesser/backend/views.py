@@ -75,6 +75,16 @@ class ProcessPrompt(APIView):
         session.save()
 
         # Define the image URL
+        # r = requests.post(
+        #     "https://api.deepai.org/api/text2img",
+        #     data={
+        #         'text': 'messi and ronaldo playing baseball',
+        #     },
+        #     headers={'api-key': os.environ['OPENAI_KEY']}
+        # )
+        # image_url = r.json()['share_url']
+        
+        
         image_url = "https://images.deepai.org/art-image/021223307047423898f5426c6d679a00/messi-and-ronaldo-playing-baseball-051fc3.jpg"
 
         try:
