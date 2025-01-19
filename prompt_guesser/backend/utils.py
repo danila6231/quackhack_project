@@ -33,4 +33,4 @@ def get_points(prompt, prompt_guess):
     styled_prompt = gen_styled_string(prompt, intersection)
     styled_prompt_guess = gen_styled_string(prompt_guess, intersection)
     
-    return len(intersection), styled_prompt, styled_prompt_guess 
+    return len(intersection) * 100, styled_prompt, styled_prompt_guess 
