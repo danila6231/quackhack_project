@@ -65,9 +65,11 @@ const create = () => {
     body: JSON.stringify({ player_name: 'TEST' })
   };
 
-  fetch('http://127.0.0.1:8000/api/sessions', requestOptions).then((response) => {
-    console.log(response.json());
-  });
+  fetch('http://127.0.0.1:8000/api/sessions', requestOptions)
+    .then(response => response.json())
+    .then((data) => {
+      console.log(data);
+    });
 }
 
 </script>
